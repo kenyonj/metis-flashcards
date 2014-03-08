@@ -1,0 +1,7 @@
+<h2>Please select a language:</h2>
+<p><a href="/decks/new">Create New Deck</a></p>
+<ul>
+  <% @decks.each do |deck| %>
+    <li><a href="/decks/<%= deck.id %>"><%= deck.name.capitalize %></a></li>
+  <% end %>
+</ul>

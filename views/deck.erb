@@ -1,0 +1,19 @@
+<h2><%= @deck.name.capitalize %></h2>
+<p>
+  <a href="/decks/<%= @deck.id %>/edit">Edit Deck</a>
+  <form action="/decks/<%= @deck.id %>" method="POST">
+    <input type="hidden" name="_method" value="DELETE">
+    <input type="submit" value="Delete Deck">
+  </form>
+</p>
+
+<% @deck.cards.each do |card| %>
+  <p><%= card.front %>: </p>
+  <p>
+    <a href="/decks/<%= @deck.id %>/cards/<%= card.id %>/edit">Edit Card</a>
+    <form action="/decks/<%= @deck.id %>/cards/<%= card.id %>" method="POST">
+      <input type="hidden" name="_method" value="DELETE">
+      <input type="submit" value="Delete Card">
+    </form>
+  </p>
+<% end %>
