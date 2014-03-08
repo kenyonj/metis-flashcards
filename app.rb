@@ -6,77 +6,46 @@ ActiveRecord::Base.establish_connection({
   database: 'flashcards'
 })
 
-class Gallery < ActiveRecord::Base
-  has_many :images
+class Deck < ActiveRecord::Base
+  has_many :cards
 end
 
-class Image < ActiveRecord::Base
-  belongs_to :gallery
+class Card < ActiveRecord::Base
+  belongs_to :decks
 end
 
 get '/' do
-  @galleries = Gallery.all
+  decks_unsorted = Deck.all
+  @decks = decks_unsorted.sort_by { |key| key[:name] }
   erb :index
 end
 
-post '/galleries' do
-  gallery = Gallery.create(params[:gallery])
-  redirect "/galleries/#{gallery.id}"
+get '/decks/new' do
+  erb :new_deck
 end
 
-post '/galleries/:id/images' do
-  gallery = Gallery.find(params[:id])
-  image = Image.new(params[:image])
-  gallery.images << image
-  redirect "/galleries/#{gallery.id}"
+get '/decks/:deck_id/cards/:id' do
+  @deck = Deck.find(params[:deck_id])
+  @card = Card.find(params[:id])
+  erb :card
 end
 
-get '/galleries/:id/images/new' do
-  @gallery = Gallery.find(params[:id])
-  erb :new_image
+get '/decks/new' do
+  erb :new_deck
 end
 
-get '/galleries/new' do
-  erb :new_gallery
+get '/decks/:id' do
+  @deck = Deck.find(params[:id])
+  erb :deck
 end
 
-get '/galleries/:id' do
-  id = params[:id]
-  @gallery = Gallery.find(id)
-  @images = @gallery.images
-  erb :gallery
+post '/decks/new' do
+  deck = Deck.create(params[:deck])
+  redirect "/decks/#{deck.id}"
 end
 
-get '/galleries/:gallery_id/images/:id/edit' do
-  @image = Image.find(params[:id])
-  erb :edit_image
-end
-
-get '/galleries/:id/edit' do
-  @gallery = Gallery.find(params[:id])
-  erb :edit_gallery
-end
-
-patch '/galleries/:gallery_id/images/:id' do
-  image = Image.find(params[:id])
-  image.update(params[:image])
-  redirect "/galleries/#{image.gallery_id}"
-end
-
-patch '/galleries/:id' do
-  gallery = Gallery.find(params[:id])
-  gallery.update(params[:gallery])
-  redirect "/galleries/#{gallery.id}"
-end
-
-delete '/galleries/:gallery_id/images/:id' do
-  image = Image.find(params[:id])
-  image.destroy
-  redirect "/galleries/#{image.gallery_id}"
-end
-
-delete '/galleries/:id' do
-  gallery = Gallery.find(params[:id])
-  gallery.destroy
+delete '/decks/:id' do
+  deck = Deck.find(params[:id])
+  deck.destroy
   redirect "/"
 end
