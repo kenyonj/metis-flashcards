@@ -1,0 +1,15 @@
+<h2>Edit Card</h2>
+<form action="/decks/<%= @deck.id %>/cards/<%= @card.id %>" method="POST">
+  <input type="hidden" name="_method" value="PATCH">
+  <div>
+    <label for="card_front">Card Front:</label>
+    <input type="text" id="card_front" name="card[front]" value="<%= @card.front %>">
+  </div>
+  <div>
+    <label for="card_back">Card Back:</label>
+    <input type="text" id="card_back" name="card[back]" value="<%= @card.back %>">
+  </div>
+  <div>
+    <input type="submit" value="Edit Card">
+  </div>
+</form>

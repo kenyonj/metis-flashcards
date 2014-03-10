@@ -6,7 +6,9 @@
     <input type="submit" value="Delete Deck">
   </form>
 </p>
-
+<p>
+  <a href="/decks/<%= @deck.id %>/cards/new">Add Card</a>
+</p>
 <% @deck.cards.each do |card| %>
   <p><%= card.front %>: </p>
   <p>
