@@ -74,7 +74,7 @@ post '/decks/:deck_id/cards/:id/guess' do
   card = Card.find(params[:id])
   card_guess = Card.new(params[:card])
 
-  if card.back.strip == card_guess.back.strip
+  if card.back.strip.downcase == card_guess.back.strip.downcase
     "You are correct! <a href=\"/decks/#{deck.id}\">Click here to return to the #{deck.name.capitalize} deck.</a>"
   else
     "You are incorrect. The back of the #{card.front} card was #{card.back}. <a href=\"/decks/#{deck.id}\">Click here to return to the #{deck.name.capitalize} deck.</a>"
